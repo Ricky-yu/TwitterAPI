@@ -17,6 +17,7 @@ struct User {
     let name:String
     
     let profileImageURL: String
-
+    
+    let twitterUrl: String
     
 }

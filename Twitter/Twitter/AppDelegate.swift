@@ -7,15 +7,40 @@
 //
 
 import UIKit
-
+import Alamofire
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let consumerKey = "YivLs9XTJEoeFjsVQy6xNLuYA"
+        let consumerSecret = "IKF7eXbvlv88MZ59unRL2zwT7W9cD8XhLkgo2FZD5Il5ig7lEj"
+        let credentialsString = "\(consumerKey):\(consumerSecret)"
+        let credentialsData = credentialsString.data(using: .utf8)
+        let base64String = credentialsData!.base64EncodedString()
+        let headers = ["Authorization": "Basic \(base64String)",
+                       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                      ]
+        let params: [String : AnyObject] = ["grant_type": "client_credentials" as AnyObject]
+        Alamofire.request("https://api.twitter.com/oauth2/token", method: .post, parameters: params, encoding: URLEncoding.httpBody, headers: headers)
+            .responseJSON { response in switch response.result {
+            case .success(let JSON):
+                
+                let response = JSON as! NSDictionary
+                let token = response.value(forKeyPath:"access_token" ) as! String
+                UserDefaults.standard.set(token,forKey:"Token")
+                UserDefaults.standard.synchronize()
+                
+                
+            case .failure(let error):
+                
+                print("Request failed with error: \(error)")
+                
+                }
+        }
+        
         return true
     }
 

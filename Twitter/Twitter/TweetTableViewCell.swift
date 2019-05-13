@@ -18,15 +18,19 @@ class TweetTableViewCell: UITableViewCell {
     
     @IBOutlet weak var textContentLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func fill(tweet: Tweet){
+        let downloadTask = URLSession.shared.dataTask(with:  URL(string: tweet.user.profileImageURL)!) { [weak self] data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            DispatchQueue.main.async {
+                self?.iconImageView.image = UIImage(data: data!)
+            }
+        }
+        downloadTask.resume()
+        nameLabel.text = tweet.user.name
+        textContentLabel.text = tweet.text
+        screenNameLabel.text = "@" + tweet.user.screenName
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
