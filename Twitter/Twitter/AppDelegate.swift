@@ -15,8 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let consumerKey = "YivLs9XTJEoeFjsVQy6xNLuYA"
-        let consumerSecret = "IKF7eXbvlv88MZ59unRL2zwT7W9cD8XhLkgo2FZD5Il5ig7lEj"
+        let consumerKey = "Paste Your Key "
+        let consumerSecret = "Paste Your Secret"
         let credentialsString = "\(consumerKey):\(consumerSecret)"
         let credentialsData = credentialsString.data(using: .utf8)
         let base64String = credentialsData!.base64EncodedString()
